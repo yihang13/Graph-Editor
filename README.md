@@ -1,8 +1,8 @@
-# 图论画板 · Graph Editor
+# 分层图论画板 · Layered Graph Editor
 
 一个**单 HTML、零外部依赖**的分层图论画板。原生 HTML + CSS + JavaScript 编写，用 Canvas 2D 绘制，不依赖框架、CDN、WebGL 或后端。
 
-支持分层（2D  剖面）与 3D 多层两种显示模式、力导向拖拽、画布缩放/平移/框选、完整的撤销重做、TXT 文档双向同步，以及 PNG / JPEG 导出；层支持主题色与描述，画布/物理参数可在“偏好”中调整。
+最大的特性是支持画分层图，有分层（2D  剖面）与 3D 多层两种显示模式、力导向拖拽、画布缩放/平移/框选、完整的撤销重做、TXT 文档双向同步，以及 PNG / JPEG 导出；层支持主题色与描述，画布/物理参数可在“偏好”中调整。
 
 ![分层显示](docs/preview-2d.png)
 
@@ -60,7 +60,7 @@ node tests/perf.mjs    # 力导向与解析性能
 ## 项目结构
 
 ```
-GraphEditor/
+LayeredGraphEditor/
 ├── build.mjs                 # 单 HTML 打包脚本（Node，无第三方依赖）
 ├── package.json
 ├── README.md
@@ -300,7 +300,7 @@ F [0|1] [#层颜色] [desc]                 ← 共 F 行，可整体省略
 
 - 作者：**yihang_su**
 - Github：<https://github.com/yihang13>
-- 本项目 Github 地址：<https://github.com/yihang13/Graph-Editor>
-- AI 使用：DeepSeek V4.1 Flash 1017 + DeepSeek Harness，提示词见文档 SPEC 和 New SPEC。截至 1.0 版本，共消耗 141312557 tokens，合 6.13 CNY。
+- 本项目 Github 地址：<https://github.com/yihang13/Layered-Graph-Editor>
+- AI 使用：DeepSeek V4.1 Flash 1017 + DeepSeek Harness，主要的两轮提示词见文档 SPEC 和 New SPEC（当然还有其他若干的小对话，用于纠正项目方向等细节问题）。截至 1.0 版本，共消耗 141312557 tokens，合 6.13 CNY。
 
 如果您觉得本项目对您有帮助，不妨在 Github 上为我们点亮 Star，谢谢！
