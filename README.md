@@ -64,8 +64,8 @@ LayeredGraphEditor/
 ├── build.mjs                 # 单 HTML 打包脚本（Node，无第三方依赖）
 ├── package.json
 ├── README.md
-├── SPEC.md                   # 需求文档副本
-├── needs                     # 原始需求附件
+├── SPEC.md                   # 第一轮需求文件
+├── New SPEC.md               # 第二轮需求文件
 ├── src/
 │   ├── index.html            # 开发入口
 │   ├── styles.css            # 全部样式
