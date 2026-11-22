@@ -1,0 +1,15 @@
+{
+  "name": "graph-editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single-file layered graph editor (canvas, force layout, 2D/3D, TXT document, PNG/JPEG export)",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node tests/smoke.mjs",
+    "perf": "node tests/perf.mjs"
+  },
+  "dependencies": {
+    "jsdom": "^26.1.0"
+  }
+}

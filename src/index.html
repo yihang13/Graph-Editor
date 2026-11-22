@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="yihang_su" />
+    <title>图论画板 · Graph Editor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <aside class="editor" id="editor">
+        <div class="editor-head">
+          <div class="brand">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <div class="brand-text">
+              <div class="brand-name">图论画板</div>
+              <div class="brand-sub">Graph Editor</div>
+            </div>
+          </div>
+          <div class="head-actions">
+            <button class="icon-btn" id="btn-guide-head" title="操作指南" aria-label="操作指南">?</button>
+            <button class="icon-btn" id="btn-clear" title="清空画布（可撤销）" aria-label="清空画布">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 14h10l1-14"/><path d="M10 11v5M14 11v5"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-collapse" title="收起编辑器" aria-label="收起编辑器">‹</button>
+          </div>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab is-active" data-tab="ui" role="tab">UI 模式</button>
+          <button class="tab" data-tab="text" role="tab">文本模式</button>
+        </div>
+
+        <div class="editor-body">
+          <div class="pane" id="pane-ui">
+            <section class="panel">
+              <div class="panel-title">编号起点</div>
+              <div class="field-row">
+                <span class="field-label">点编号</span>
+                <div class="segmented" id="seg-point">
+                  <button data-start="0">0 起点</button>
+                  <button data-start="1">1 起点</button>
+                </div>
+              </div>
+              <div class="field-row">
+                <span class="field-label">层编号</span>
+                <div class="segmented" id="seg-floor">
+                  <button data-start="0">0 起点</button>
+                  <button data-start="1">1 起点</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-title">偏好</div>
+              <div class="pref-row">
+                <span class="field-label">边粗细</span>
+                <input type="range" class="pref-range" data-pref="edgeWidth" min="0.5" max="12" step="0.5" value="2" aria-label="全部边的粗细" />
+                <input type="number" class="pref-number" data-pref="edgeWidth" min="0.5" max="12" step="0.5" value="2" aria-label="边粗细数值" />
+                <span class="pref-unit">px</span>
+              </div>
+              <div class="pref-row">
+                <span class="field-label">点大小</span>
+                <input type="range" class="pref-range" data-pref="nodeRadius" min="8" max="40" step="1" value="18" aria-label="节点大小" />
+                <input type="number" class="pref-number" data-pref="nodeRadius" min="8" max="40" step="1" value="18" aria-label="节点大小数值" />
+                <span class="pref-unit">px</span>
+              </div>
+              <div class="pref-row">
+                <span class="field-label" title="仅 3D 多层显示生效">层距</span>
+                <input type="range" class="pref-range" data-pref="spacingScale" min="0.5" max="2.5" step="0.1" value="1" aria-label="层间距倍率" />
+                <input type="number" class="pref-number" data-pref="spacingScale" min="0.5" max="2.5" step="0.1" value="1" aria-label="层间距倍率数值" />
+                <span class="pref-unit">×</span>
+              </div>
+              <div class="pref-subtitle">物理</div>
+              <div class="pref-row">
+                <span class="field-label">斥力</span>
+                <input type="range" class="pref-range" data-pref="repulsion" min="0" max="30000" step="500" value="9000" aria-label="物理斥力" />
+                <input type="number" class="pref-number" data-pref="repulsion" min="0" max="30000" step="500" value="9000" aria-label="物理斥力数值" />
+              </div>
+              <div class="pref-row">
+                <span class="field-label">阻尼</span>
+                <input type="range" class="pref-range" data-pref="damping" min="0.5" max="0.99" step="0.01" value="0.86" aria-label="物理阻尼" />
+                <input type="number" class="pref-number" data-pref="damping" min="0.5" max="0.99" step="0.01" value="0.86" aria-label="物理阻尼数值" />
+              </div>
+              <div class="pref-row">
+                <span class="field-label">弹簧</span>
+                <input type="range" class="pref-range" data-pref="spring" min="0.004" max="0.08" step="0.002" value="0.028" aria-label="弹簧强度" />
+                <input type="number" class="pref-number" data-pref="spring" min="0.004" max="0.08" step="0.002" value="0.028" aria-label="弹簧强度数值" />
+              </div>
+              <div class="pref-row">
+                <span class="field-label">边长</span>
+                <input type="range" class="pref-range" data-pref="restLength" min="40" max="300" step="1" value="112" aria-label="弹簧自然长度" />
+                <input type="number" class="pref-number" data-pref="restLength" min="40" max="300" step="1" value="112" aria-label="弹簧自然长度数值" />
+                <span class="pref-unit">px</span>
+              </div>
+              <div class="pref-note">调整后立即生效；这些是画布偏好，不写入 TXT。</div>
+              <div class="pref-actions">
+                <button class="btn btn-sm" data-act="reset-prefs" title="恢复边粗细、点大小、层距与物理参数的默认值">
+                  恢复默认
+                </button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-title">创建 / 编辑</div>
+              <div class="btn-grid">
+                <button class="btn" data-act="new-point">＋ 新建节点</button>
+                <button class="btn" data-act="new-edge">↗ 新建边</button>
+                <button class="btn" data-act="new-floor">▤ 新建分层</button>
+                <button class="btn" data-act="edit">✎ 编辑选中</button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-title">当前选中</div>
+              <div class="selection-body" id="selection-body"></div>
+            </section>
+
+            <section class="panel panel-grow">
+              <div class="panel-title">层列表 <span class="panel-hint" id="floor-count-hint"></span></div>
+              <div class="floor-list" id="floor-list"></div>
+            </section>
+          </div>
+
+          <div class="pane is-hidden" id="pane-text">
+            <div class="text-tools">
+              <button class="btn btn-sm" data-text-act="import">导入 .txt</button>
+              <button class="btn btn-sm" data-text-act="download">下载 .txt</button>
+              <button class="btn btn-sm" data-text-act="rewrite">用模型重写</button>
+            </div>
+            <div class="text-status" id="text-status"></div>
+            <textarea
+              id="text-input"
+              class="text-input"
+              spellcheck="false"
+              placeholder="在此输入或粘贴 TXT 文档，画布会边输入边生成…"
+            ></textarea>
+            <input type="file" id="text-file" accept=".txt,text/plain" hidden />
+          </div>
+        </div>
+
+        <div class="editor-resizer" id="editor-resizer" title="拖动调整编辑器宽度"></div>
+      </aside>
+
+      <button class="expand-handle" id="expand-handle" title="展开编辑器" aria-label="展开编辑器">›</button>
+
+      <main class="stage" id="stage">
+        <canvas id="canvas" tabindex="0" aria-label="图画布"></canvas>
+        <div class="hud" id="hud"></div>
+
+        <div class="empty-state" id="empty-state">
+          <div class="empty-card">
+            <div class="empty-kicker">GRAPH EDITOR</div>
+            <div class="empty-title">开始绘制你的图</div>
+            <p>新建节点、输入 TXT 文档，或载入一个三层示例。</p>
+            <div class="empty-actions">
+              <button class="btn btn-primary" data-act="empty-new">新建节点</button>
+              <button class="btn" data-act="empty-sample">载入示例</button>
+              <button class="btn btn-ghost" data-act="empty-guide">操作指南</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="toast-wrap" id="toast-wrap"></div>
+        <div class="canvas-tip" id="canvas-tip"></div>
+
+        <div class="layer-bar is-hidden" id="layer-bar">
+          <button class="lb-btn" data-act="floor-prev" title="上一层" aria-label="上一层">‹</button>
+          <input type="range" class="floor-slider" id="floor-slider" min="0" max="0" value="0" step="1" aria-label="层级切换" />
+          <div class="floor-input-wrap">
+            <input type="number" id="floor-input" min="1" value="1" aria-label="层编号" />
+            <span class="floor-current-desc" id="floor-current-desc"></span>
+            <span class="floor-total" id="floor-total">/ 1</span>
+          </div>
+          <button class="lb-btn" data-act="floor-next" title="下一层" aria-label="下一层">›</button>
+        </div>
+      </main>
+
+      <aside class="toolbar" id="toolbar" aria-label="工具栏"></aside>
+      <div class="modal-root" id="modal-root"></div>
+    </div>
+
+    <script src="js/util.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/interact.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
